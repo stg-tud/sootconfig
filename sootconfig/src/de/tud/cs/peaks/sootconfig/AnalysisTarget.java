@@ -1,0 +1,124 @@
+package de.tud.cs.peaks.sootconfig;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+import soot.options.Options;
+import de.tud.cs.peaks.sootconfig.entrypointcalculator.EntryPointCalculator;
+import de.tud.cs.peaks.sootconfig.entrypointcalculator.ZeroEntryPoints;
+
+public class AnalysisTarget {
+	private final List<String> classes = new ArrayList<String>();
+	private String classPath;
+	private String processPath;
+	private EntryPointCalculator entryPointCalculator = new ZeroEntryPoints();
+
+	public AnalysisTarget addClass(String className) {
+		classes.add(className);
+		return this;
+	}
+
+	public AnalysisTarget classPath(String classPath) {
+		this.setClassPath(classPath);
+		return this;
+	}
+
+	public AnalysisTarget processPath(String processPath) {
+		this.setProcessPath(processPath);
+		return this;
+	}
+
+	public String getClassPath() {
+		return classPath;
+	}
+
+	public void setClassPath(String classPath) {
+		this.classPath = classPath;
+	}
+
+	public String getProcessPath() {
+		return processPath;
+	}
+
+	public void setProcessPath(String processPath) {
+		this.processPath = processPath;
+	}
+
+	public Options applyTo(Options o) {
+		if (classes.size() > 0)
+			for (String c : classes)
+				o.classes().add(c);
+
+		if (classPath != null && classPath != "")
+			o.set_soot_classpath(classPath);
+
+		if (processPath != null && processPath != "") {
+			List<String> setting = new LinkedList<String>();
+			setting.add(processPath);
+			o.set_process_dir(setting);
+		}
+
+		return o;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append("Analysis target (");
+
+		if (processPath != null && processPath != "")
+			buffer.append("Process path: " + processPath + " ");
+
+		if (classPath != null && classPath != "")
+			buffer.append("Class path: " + classPath + " ");
+
+		buffer.append(")");
+
+		return buffer.toString();
+	}
+
+	public AnalysisTarget classPathToProcessPathDirectory() {
+		File file = new File(this.processPath);
+		File path = new File(file.getParent());
+
+		File[] jarFiles = path.listFiles(new FilenameFilter() {
+			protected final String regex = ".*\\.jar$";
+
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.matches(regex);
+			}
+
+		});
+
+		ArrayList<String> jarFileNames = new ArrayList<String>(jarFiles.length);
+		for (File j : jarFiles)
+			jarFileNames.add(j.getPath());
+
+		String newClassPath = StringUtils
+				.join(jarFileNames, File.pathSeparator);
+
+		return classPath(newClassPath);
+	}
+
+	public EntryPointCalculator getEntryPointCalculator() {
+		return this.entryPointCalculator;
+	}
+
+	public void setEntryPointCalculator(
+			EntryPointCalculator entryPointCalculator) {
+		this.entryPointCalculator = entryPointCalculator;
+	}
+
+	public AnalysisTarget entryPointCalculator(
+			EntryPointCalculator entryPointCalculator) {
+		this.setEntryPointCalculator(entryPointCalculator);
+		return this;
+	}
+}
