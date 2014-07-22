@@ -12,6 +12,11 @@ import soot.options.Options;
 import de.tud.cs.peaks.sootconfig.entrypointcalculator.EntryPointCalculator;
 import de.tud.cs.peaks.sootconfig.entrypointcalculator.ZeroEntryPoints;
 
+/***
+ * 
+ * 
+ * @author Ben Hermann
+ */
 public class AnalysisTarget {
 	private final List<String> classes = new ArrayList<String>();
 	private String classPath;
@@ -19,7 +24,7 @@ public class AnalysisTarget {
 	private EntryPointCalculator entryPointCalculator = new ZeroEntryPoints();
 
 	public AnalysisTarget addClass(String className) {
-		classes.add(className);
+		this.classes.add(className);
 		return this;
 	}
 
@@ -34,7 +39,7 @@ public class AnalysisTarget {
 	}
 
 	public String getClassPath() {
-		return classPath;
+		return this.classPath;
 	}
 
 	public void setClassPath(String classPath) {
@@ -42,7 +47,7 @@ public class AnalysisTarget {
 	}
 
 	public String getProcessPath() {
-		return processPath;
+		return this.processPath;
 	}
 
 	public void setProcessPath(String processPath) {
@@ -50,16 +55,16 @@ public class AnalysisTarget {
 	}
 
 	public Options applyTo(Options o) {
-		if (classes.size() > 0)
-			for (String c : classes)
+		if (this.classes.size() > 0)
+			for (String c : this.classes)
 				o.classes().add(c);
 
-		if (classPath != null && classPath != "")
-			o.set_soot_classpath(classPath);
+		if (this.classPath != null && this.classPath != "")
+			o.set_soot_classpath(this.classPath);
 
-		if (processPath != null && processPath != "") {
+		if (this.processPath != null && this.processPath != "") {
 			List<String> setting = new LinkedList<String>();
-			setting.add(processPath);
+			setting.add(this.processPath);
 			o.set_process_dir(setting);
 		}
 
@@ -72,11 +77,15 @@ public class AnalysisTarget {
 
 		buffer.append("Analysis target (");
 
-		if (processPath != null && processPath != "")
-			buffer.append("Process path: " + processPath + " ");
+		if (this.processPath != null && this.processPath != "")
+			buffer.append("Process path: " + this.processPath + " ");
 
-		if (classPath != null && classPath != "")
-			buffer.append("Class path: " + classPath + " ");
+		if (this.classPath != null && this.classPath != "")
+			buffer.append("Class path: " + this.classPath + " ");
+
+		if (this.classes != null && this.classes.size() > 0)
+			buffer.append("Classes: (" + StringUtils.join(this.classes, ", ")
+					+ ")");
 
 		buffer.append(")");
 
@@ -92,7 +101,7 @@ public class AnalysisTarget {
 
 			@Override
 			public boolean accept(File dir, String name) {
-				return name.matches(regex);
+				return name.matches(this.regex);
 			}
 
 		});
