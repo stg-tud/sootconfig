@@ -7,6 +7,7 @@ import java.util.List;
 import soot.G;
 import soot.PackManager;
 import soot.Scene;
+import soot.SootClass;
 import soot.SootMethod;
 
 public class SootRun {
@@ -23,8 +24,8 @@ public class SootRun {
 		SootResult result = new SootResult();
 		result.totalSootRuntime().start();
 
-		System.out.println(t.toString());
-		System.out.println(o.toString());
+		// System.out.println(t.toString());
+		// System.out.println(o.toString());
 
 		ByteArrayOutputStream out = configureSoot();
 
@@ -71,6 +72,14 @@ public class SootRun {
 
 		o.applyTo(G.v().soot_options_Options());
 		t.applyTo(G.v().soot_options_Options());
+		Scene.v().addBasicClass("antlr.ASTNULLType", SootClass.HIERARCHY);
+		Scene.v().addBasicClass(
+				"com.fasterxml.classmate.members.ResolvedField",
+				SootClass.HIERARCHY);
+		Scene.v().addBasicClass(
+				"com.fasterxml.classmate.members.ResolvedMethod",
+				SootClass.HIERARCHY);
+
 		return out;
 	}
 

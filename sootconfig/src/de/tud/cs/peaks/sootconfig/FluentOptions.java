@@ -19,6 +19,7 @@ public class FluentOptions {
 	private String outputFormat;
 	private boolean prependClasspath;
 	private boolean wholeProgramAnalysis;
+	private boolean useCoffi;
 
 	private final Set<PhaseOptions> phaseOptions = new ArraySet<PhaseOptions>();
 
@@ -28,17 +29,19 @@ public class FluentOptions {
 	}
 
 	public Options applyTo(Options o) {
-		o.set_allow_phantom_refs(allowPhantomReferences);
-		if (allowPhantomReferences)
+		o.set_allow_phantom_refs(this.allowPhantomReferences);
+		if (this.allowPhantomReferences)
 			o.setPhaseOption("jb.tr", "ignore-wrong-staticness:true");
-		o.set_full_resolver(fullResolver);
-		o.set_include_all(includeAll);
-		o.set_keep_line_number(keepLineNumbers);
-		o.set_no_bodies_for_excluded(noBodiesForExcluded);
+		o.set_full_resolver(this.fullResolver);
+		o.set_include_all(this.includeAll);
+		o.set_keep_line_number(this.keepLineNumbers);
+		o.set_no_bodies_for_excluded(this.noBodiesForExcluded);
 		// TODO: Translate Strings to Enum Values
 		o.set_output_format(Options.output_format_none);
-		o.set_prepend_classpath(prependClasspath);
-		o.set_whole_program(wholeProgramAnalysis);
+		o.set_prepend_classpath(this.prependClasspath);
+		o.set_whole_program(this.wholeProgramAnalysis);
+		if (this.useCoffi)
+			o.set_coffi(true);
 
 		for (PhaseOptions p : this.phaseOptions)
 			p.apply(o);
@@ -49,29 +52,32 @@ public class FluentOptions {
 	private String createOptionsString() {
 		List<String> buffer = new ArrayList<String>();
 
-		if (allowPhantomReferences)
+		if (this.allowPhantomReferences)
 			buffer.add("allow for phantom references");
 
-		if (fullResolver)
+		if (this.fullResolver)
 			buffer.add("use full resolving");
 
-		if (includeAll)
+		if (this.includeAll)
 			buffer.add("include all");
 
-		if (keepLineNumbers)
+		if (this.keepLineNumbers)
 			buffer.add("keep line numbers");
 
-		if (noBodiesForExcluded)
+		if (this.noBodiesForExcluded)
 			buffer.add("don't generate bodies for excluded parts");
 
-		if (outputFormat != null && outputFormat != "")
-			buffer.add("output format: " + outputFormat);
+		if (this.outputFormat != null && this.outputFormat != "")
+			buffer.add("output format: " + this.outputFormat);
 
-		if (prependClasspath)
+		if (this.prependClasspath)
 			buffer.add("prepend class path");
 
-		if (wholeProgramAnalysis)
+		if (this.wholeProgramAnalysis)
 			buffer.add("whole program analysis");
+
+		if (this.useCoffi)
+			buffer.add("uses coffi");
 
 		return StringUtils.join(buffer, ",");
 	}
@@ -118,6 +124,11 @@ public class FluentOptions {
 
 	public FluentOptions wholeProgramAnalysis() {
 		this.wholeProgramAnalysis = true;
+		return this;
+	}
+
+	public FluentOptions useCoffi() {
+		this.useCoffi = true;
 		return this;
 	}
 

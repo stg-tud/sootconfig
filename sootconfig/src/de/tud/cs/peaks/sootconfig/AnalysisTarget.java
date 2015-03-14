@@ -13,9 +13,10 @@ import de.tud.cs.peaks.sootconfig.entrypointcalculator.EntryPointCalculator;
 import de.tud.cs.peaks.sootconfig.entrypointcalculator.ZeroEntryPoints;
 
 /***
- * 
- * 
+ *
+ *
  * @author Ben Hermann
+ *
  */
 public class AnalysisTarget {
 	private final List<String> classes = new ArrayList<String>();
@@ -75,17 +76,13 @@ public class AnalysisTarget {
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 
-		buffer.append("Analysis target (");
+		buffer.append("analysis target (");
 
 		if (this.processPath != null && this.processPath != "")
 			buffer.append("Process path: " + this.processPath + " ");
 
 		if (this.classPath != null && this.classPath != "")
 			buffer.append("Class path: " + this.classPath + " ");
-
-		if (this.classes != null && this.classes.size() > 0)
-			buffer.append("Classes: (" + StringUtils.join(this.classes, ", ")
-					+ ")");
 
 		buffer.append(")");
 
@@ -106,14 +103,20 @@ public class AnalysisTarget {
 
 		});
 
-		ArrayList<String> jarFileNames = new ArrayList<String>(jarFiles.length);
-		for (File j : jarFiles)
-			jarFileNames.add(j.getPath());
+		if (jarFiles != null) {
+			ArrayList<String> jarFileNames = new ArrayList<String>(
+					jarFiles.length);
+			for (File j : jarFiles)
+				jarFileNames.add(j.getPath());
 
-		String newClassPath = StringUtils
-				.join(jarFileNames, File.pathSeparator);
+			String newClassPath = StringUtils.join(jarFileNames,
+					File.pathSeparator);
 
-		return classPath(newClassPath);
+			return classPath(newClassPath);
+		} else {
+			return this;
+		}
+
 	}
 
 	public EntryPointCalculator getEntryPointCalculator() {
