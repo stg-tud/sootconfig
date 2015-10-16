@@ -51,8 +51,7 @@ public class SootRun {
 
 	private void setEntryPoints(SootResult result) {
 		result.entryPointCalculationRuntime().start();
-		List<SootMethod> entryPoints = t.getEntryPointCalculator()
-				.calculateEntryPoints(Scene.v());
+		List<SootMethod> entryPoints = this.t.getEntryPointCalculator().calculateEntryPoints(Scene.v());
 		if (entryPoints != null && entryPoints.size() > 0)
 			Scene.v().setEntryPoints(entryPoints);
 		result.entryPointCalculationRuntime().stop();
@@ -70,15 +69,11 @@ public class SootRun {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		G.v().out = new PrintStream(out);
 
-		o.applyTo(G.v().soot_options_Options());
-		t.applyTo(G.v().soot_options_Options());
+		this.o.applyTo(G.v().soot_options_Options());
+		this.t.applyTo(G.v().soot_options_Options());
 		Scene.v().addBasicClass("antlr.ASTNULLType", SootClass.HIERARCHY);
-		Scene.v().addBasicClass(
-				"com.fasterxml.classmate.members.ResolvedField",
-				SootClass.HIERARCHY);
-		Scene.v().addBasicClass(
-				"com.fasterxml.classmate.members.ResolvedMethod",
-				SootClass.HIERARCHY);
+		Scene.v().addBasicClass("com.fasterxml.classmate.members.ResolvedField", SootClass.HIERARCHY);
+		Scene.v().addBasicClass("com.fasterxml.classmate.members.ResolvedMethod", SootClass.HIERARCHY);
 
 		return out;
 	}
