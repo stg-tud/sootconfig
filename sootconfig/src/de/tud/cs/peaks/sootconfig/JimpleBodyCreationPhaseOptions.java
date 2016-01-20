@@ -19,8 +19,7 @@ public class JimpleBodyCreationPhaseOptions extends PhaseOptions {
 
 	@Override
 	protected void pushToOptionSet() {
-		this.addOption("use-original-names", this.useOriginalNames ? "true"
-				: "false");
+		this.addOption("use-original-names", Boolean.toString(this.useOriginalNames));
 
 	}
 

@@ -16,10 +16,11 @@ public class FluentOptions {
 	private boolean includeAll;
 	private boolean keepLineNumbers;
 	private boolean noBodiesForExcluded;
-	private String outputFormat;
+	private OutputFormat outputFormat = OutputFormat.NONE;
 	private boolean prependClasspath;
 	private boolean wholeProgramAnalysis;
 	private boolean useCoffi;
+	private boolean useASMBackend;
 
 	private final Set<PhaseOptions> phaseOptions = new ArraySet<PhaseOptions>();
 
@@ -36,8 +37,7 @@ public class FluentOptions {
 		o.set_include_all(this.includeAll);
 		o.set_keep_line_number(this.keepLineNumbers);
 		o.set_no_bodies_for_excluded(this.noBodiesForExcluded);
-		// TODO: Translate Strings to Enum Values
-		o.set_output_format(Options.output_format_none);
+		o.set_output_format(this.outputFormat.sootOutputFormat());
 		o.set_prepend_classpath(this.prependClasspath);
 		o.set_whole_program(this.wholeProgramAnalysis);
 		if (this.useCoffi)
@@ -67,7 +67,7 @@ public class FluentOptions {
 		if (this.noBodiesForExcluded)
 			buffer.add("don't generate bodies for excluded parts");
 
-		if (this.outputFormat != null && this.outputFormat != "")
+		if (this.outputFormat != null)
 			buffer.add("output format: " + this.outputFormat);
 
 		if (this.prependClasspath)
@@ -78,6 +78,9 @@ public class FluentOptions {
 
 		if (this.useCoffi)
 			buffer.add("uses coffi");
+
+		if (this.useASMBackend)
+			buffer.add("use asm backend");
 
 		return StringUtils.join(buffer, ",");
 	}
@@ -102,7 +105,7 @@ public class FluentOptions {
 		return this;
 	}
 
-	public FluentOptions outputFormat(String format) {
+	public FluentOptions outputFormat(OutputFormat format) {
 		this.outputFormat = format;
 		return this;
 	}
@@ -129,6 +132,11 @@ public class FluentOptions {
 
 	public FluentOptions useCoffi() {
 		this.useCoffi = true;
+		return this;
+	}
+
+	public FluentOptions useASMBackend() {
+		this.useASMBackend = true;
 		return this;
 	}
 
