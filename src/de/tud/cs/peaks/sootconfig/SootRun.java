@@ -38,7 +38,7 @@ public class SootRun {
 		result.totalSootRuntime().stop();
 
 		result.setCompleteOutput(out.toString());
-		result.setScene(Scene.v());
+		result.setSootGloabel(G.v());
 
 		return result;
 	}

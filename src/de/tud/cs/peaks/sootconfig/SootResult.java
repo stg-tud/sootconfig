@@ -1,5 +1,6 @@
 package de.tud.cs.peaks.sootconfig;
 
+import soot.G;
 import soot.Scene;
 
 import com.google.common.base.Stopwatch;
@@ -12,13 +13,13 @@ public class SootResult {
 
 	private Scene scene;
 
-	public Scene getScene() {
-		return scene;
-	}
+	private G sootGlobal;
 
-	public void setScene(Scene scene) {
-		this.scene = scene;
-	}
+	public G getSootGlobal() { return sootGlobal; }
+
+	public void setSootGloabel(G global) { this.sootGlobal = global; }
+
+	public Scene getScene() { return sootGlobal.soot_Scene(); }
 
 	private String completeOutput;
 
