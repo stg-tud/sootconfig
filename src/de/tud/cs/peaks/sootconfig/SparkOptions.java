@@ -58,4 +58,28 @@ public class SparkOptions extends CallGraphPhaseSubOptions {
 		this.addOption("on-fly-cg", Boolean.toString(this.onFlyCallGraph));
 		this.addOption("simulate-natives", Boolean.toString(this.simulateNatives));
 	}
+
+	@Override
+	public boolean subEquals(PhaseSubOptions o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		SparkOptions that = (SparkOptions) o;
+
+		if (enabled != that.enabled) return false;
+		if (preJimplify != that.preJimplify) return false;
+		if (onFlyCallGraph != that.onFlyCallGraph) return false;
+		return simulateNatives == that.simulateNatives;
+
+	}
+
+	@Override
+	public int subHashCode() {
+		int result = super.hashCode();
+		result = 31 * result + (enabled ? 1 : 0);
+		result = 31 * result + (preJimplify ? 1 : 0);
+		result = 31 * result + (onFlyCallGraph ? 1 : 0);
+		result = 31 * result + (simulateNatives ? 1 : 0);
+		return result;
+	}
 }

@@ -59,4 +59,22 @@ public class CallGraphPhaseOptions extends PhaseOptions {
 
 	}
 
+	@Override
+	public boolean subEquals(PhaseOptions o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		CallGraphPhaseOptions that = (CallGraphPhaseOptions) o;
+
+		if (allReachable != that.allReachable) return false;
+		return mode == that.mode;
+
+	}
+
+	@Override
+	public int subHashCode() {
+		int result = (allReachable ? 1 : 0);
+		result = 31 * result + mode.hashCode();
+		return result;
+	}
 }

@@ -30,4 +30,6 @@ public abstract class FilteredMethodsEP implements EntryPointCalculator {
 
 	protected abstract boolean entryMethodFilter(SootMethod m);
 
+
+
 }

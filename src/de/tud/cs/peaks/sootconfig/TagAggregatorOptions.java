@@ -3,13 +3,31 @@ package de.tud.cs.peaks.sootconfig;
 public class TagAggregatorOptions extends PhaseOptions {
 
 	private final class EnabledSubOption extends PhaseSubOptions {
-		private EnabledSubOption(String name) {
-			super(name);
-		}
+
+		private EnabledSubOption(String name) { super(name); }
 
 		@Override
 		protected void pushToOptionSet() {
 			this.addOption("enabled", "true");
+		}
+
+		@Override
+		public boolean subEquals(PhaseSubOptions o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			if (!super.equals(o)) return false;
+
+			EnabledSubOption that = (EnabledSubOption) o;
+
+			return getName() != null ? getName().equals(that.getName()) : that.getName() == null;
+
+		}
+
+		@Override
+		public int subHashCode() {
+			int result = super.hashCode();
+			result = 31 * result + (getName() != null ? getName().hashCode() : 0);
+			return result;
 		}
 	}
 
@@ -56,5 +74,29 @@ public class TagAggregatorOptions extends PhaseOptions {
 		if (aggregateFieldReadsWrites)
 			this.pushSubOption(new EnabledSubOption("fieldrw"));
 	}
+
+	@Override
+	public boolean subEquals(PhaseOptions o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		TagAggregatorOptions that = (TagAggregatorOptions) o;
+
+		if (aggregateLineNumbers != that.aggregateLineNumbers) return false;
+		if (aggregateArrayBoundsNullChecks != that.aggregateArrayBoundsNullChecks) return false;
+		if (aggregateDependenceTags != that.aggregateDependenceTags) return false;
+		return aggregateFieldReadsWrites == that.aggregateFieldReadsWrites;
+
+	}
+
+	@Override
+	public int subHashCode() {
+		int result = (aggregateLineNumbers ? 1 : 0);
+		result = 31 * result + (aggregateArrayBoundsNullChecks ? 1 : 0);
+		result = 31 * result + (aggregateDependenceTags ? 1 : 0);
+		result = 31 * result + (aggregateFieldReadsWrites ? 1 : 0);
+		return result;
+	}
+
 
 }

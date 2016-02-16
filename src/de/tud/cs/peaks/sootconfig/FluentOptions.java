@@ -42,7 +42,6 @@ public class FluentOptions {
 		o.set_whole_program(this.wholeProgramAnalysis);
 		if (this.useCoffi)
 			o.set_coffi(true);
-
 		for (PhaseOptions p : this.phaseOptions)
 			p.apply(o);
 
@@ -140,4 +139,40 @@ public class FluentOptions {
 		return this;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		FluentOptions that = (FluentOptions) o;
+
+		if (allowPhantomReferences != that.allowPhantomReferences) return false;
+		if (fullResolver != that.fullResolver) return false;
+		if (includeAll != that.includeAll) return false;
+		if (keepLineNumbers != that.keepLineNumbers) return false;
+		if (noBodiesForExcluded != that.noBodiesForExcluded) return false;
+		if (prependClasspath != that.prependClasspath) return false;
+		if (wholeProgramAnalysis != that.wholeProgramAnalysis) return false;
+		if (useCoffi != that.useCoffi) return false;
+		if (useASMBackend != that.useASMBackend) return false;
+		if (outputFormat != that.outputFormat) return false;
+		return phaseOptions.equals(that.phaseOptions);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = (allowPhantomReferences ? 1 : 0);
+		result = 31 * result + (fullResolver ? 1 : 0);
+		result = 31 * result + (includeAll ? 1 : 0);
+		result = 31 * result + (keepLineNumbers ? 1 : 0);
+		result = 31 * result + (noBodiesForExcluded ? 1 : 0);
+		result = 31 * result + outputFormat.hashCode();
+		result = 31 * result + (prependClasspath ? 1 : 0);
+		result = 31 * result + (wholeProgramAnalysis ? 1 : 0);
+		result = 31 * result + (useCoffi ? 1 : 0);
+		result = 31 * result + (useASMBackend ? 1 : 0);
+		result = 31 * result + phaseOptions.hashCode();
+		return result;
+	}
 }

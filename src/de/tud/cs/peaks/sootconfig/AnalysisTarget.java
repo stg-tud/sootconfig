@@ -22,7 +22,7 @@ public class AnalysisTarget {
 	private final List<String> classes = new ArrayList<String>();
 	private String classPath;
 	private String processPath;
-	private EntryPointCalculator entryPointCalculator = new ZeroEntryPoints();
+	private EntryPointCalculator entryPointCalculator = ZeroEntryPoints.v();
 
 	public AnalysisTarget addClass(String className) {
 		this.classes.add(className);
@@ -132,5 +132,28 @@ public class AnalysisTarget {
 			EntryPointCalculator entryPointCalculator) {
 		this.setEntryPointCalculator(entryPointCalculator);
 		return this;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		AnalysisTarget that = (AnalysisTarget) o;
+
+		if (!classes.equals(that.classes)) return false;
+		if (classPath != null ? !classPath.equals(that.classPath) : that.classPath != null) return false;
+		if (processPath != null ? !processPath.equals(that.processPath) : that.processPath != null) return false;
+		return entryPointCalculator != null ? entryPointCalculator.equals(that.entryPointCalculator) : that.entryPointCalculator == null;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = classes.hashCode();
+		result = 31 * result + (classPath != null ? classPath.hashCode() : 0);
+		result = 31 * result + (processPath != null ? processPath.hashCode() : 0);
+		result = 31 * result + (entryPointCalculator != null ? entryPointCalculator.hashCode() : 0);
+		return result;
 	}
 }

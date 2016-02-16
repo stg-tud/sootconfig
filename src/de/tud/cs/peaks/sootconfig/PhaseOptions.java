@@ -46,4 +46,31 @@ public abstract class PhaseOptions {
 	protected void removeOption(String key) {
 		options.remove(key);
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		PhaseOptions that = (PhaseOptions) o;
+
+		if (!phase.equals(that.phase)) return false;
+		if (!options.equals(that.options)) return false;
+		if (!subOptions.equals(that.subOptions)) return false;
+		return this.subEquals(that);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = phase.hashCode();
+		result = 31 * result + options.hashCode();
+		result = 31 * result + subOptions.hashCode();
+		result = 31 * result + subHashCode();
+		return result;
+	}
+
+	public abstract boolean subEquals(PhaseOptions other);
+
+	public abstract int subHashCode();
 }

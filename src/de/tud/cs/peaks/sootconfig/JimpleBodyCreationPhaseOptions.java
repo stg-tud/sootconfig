@@ -23,4 +23,19 @@ public class JimpleBodyCreationPhaseOptions extends PhaseOptions {
 
 	}
 
+	@Override
+	public boolean subEquals(PhaseOptions o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		JimpleBodyCreationPhaseOptions that = (JimpleBodyCreationPhaseOptions) o;
+
+		return useOriginalNames == that.useOriginalNames;
+
+	}
+
+	@Override
+	public int subHashCode() {
+		return (useOriginalNames ? 1 : 0);
+	}
 }
