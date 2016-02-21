@@ -56,8 +56,7 @@ public abstract class PhaseOptions {
 
 		if (!phase.equals(that.phase)) return false;
 		if (!options.equals(that.options)) return false;
-		if (!subOptions.equals(that.subOptions)) return false;
-		return this.subEquals(that);
+		return subOptions.equals(that.subOptions);
 
 	}
 
@@ -66,11 +65,6 @@ public abstract class PhaseOptions {
 		int result = phase.hashCode();
 		result = 31 * result + options.hashCode();
 		result = 31 * result + subOptions.hashCode();
-		result = 31 * result + subHashCode();
 		return result;
 	}
-
-	public abstract boolean subEquals(PhaseOptions other);
-
-	public abstract int subHashCode();
 }

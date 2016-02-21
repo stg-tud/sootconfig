@@ -24,9 +24,10 @@ public class JimpleBodyCreationPhaseOptions extends PhaseOptions {
 	}
 
 	@Override
-	public boolean subEquals(PhaseOptions o) {
+	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
 
 		JimpleBodyCreationPhaseOptions that = (JimpleBodyCreationPhaseOptions) o;
 
@@ -35,7 +36,9 @@ public class JimpleBodyCreationPhaseOptions extends PhaseOptions {
 	}
 
 	@Override
-	public int subHashCode() {
-		return (useOriginalNames ? 1 : 0);
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + (useOriginalNames ? 1 : 0);
+		return result;
 	}
 }

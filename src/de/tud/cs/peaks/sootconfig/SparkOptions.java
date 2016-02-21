@@ -60,9 +60,10 @@ public class SparkOptions extends CallGraphPhaseSubOptions {
 	}
 
 	@Override
-	public boolean subEquals(PhaseSubOptions o) {
+	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
 
 		SparkOptions that = (SparkOptions) o;
 
@@ -74,7 +75,7 @@ public class SparkOptions extends CallGraphPhaseSubOptions {
 	}
 
 	@Override
-	public int subHashCode() {
+	public int hashCode() {
 		int result = super.hashCode();
 		result = 31 * result + (enabled ? 1 : 0);
 		result = 31 * result + (preJimplify ? 1 : 0);

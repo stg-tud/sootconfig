@@ -32,10 +32,6 @@ public abstract class PhaseSubOptions {
 		return this.options.entrySet();
 	}
 
-	public abstract boolean subEquals(PhaseSubOptions other);
-
-	public abstract int subHashCode();
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -44,15 +40,13 @@ public abstract class PhaseSubOptions {
 		PhaseSubOptions that = (PhaseSubOptions) o;
 
 		if (name != null ? !name.equals(that.name) : that.name != null) return false;
-		if (!options.equals(that.options)) return false;
-		return this.subEquals(that);
+		return options.equals(that.options);
 	}
 
 	@Override
 	public int hashCode() {
 		int result = name != null ? name.hashCode() : 0;
 		result = 31 * result + options.hashCode();
-		result = 31 * result + subHashCode();
 		return result;
 	}
 }
