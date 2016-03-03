@@ -1,4 +1,3 @@
-reset_minion: true
 language: java
 jdk:
   - oraclejdk8
