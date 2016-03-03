@@ -1,0 +1,17 @@
+reset_minion: true
+language: java
+jdk:
+  - oraclejdk8
+  
+branches:
+  only:
+    - master 
+
+script:
+  - curl https://ssebuild.cased.de/nightly/soot/lib/soot-trunk.jar > soot-trunk.jar
+  - mvn org.apache.maven.plugins:maven-install-plugin:install-file -Dfile=soot-trunk.jar -DgroupId=ca.mcgill.sable -DartifactId=soot -Dversion=trunk -Dpackaging=jar
+  - mvn clean deploy
+
+notifications:
+  email:
+    - hermann@informatik.tu-darmstadt.de
