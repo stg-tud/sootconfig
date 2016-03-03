@@ -14,7 +14,7 @@ branches:
     - master
 
 before_install:
-  - echo $SIGNKEY | base64 -D > codesigning.key
+  - echo $SIGNKEY | base64 --decode > codesigning.key
   - gpg --allow-secret-key-import --import codesigning.key
   - curl https://ssebuild.cased.de/nightly/soot/lib/soot-trunk.jar > soot-trunk.jar
   - mvn org.apache.maven.plugins:maven-install-plugin:install-file -Dfile=soot-trunk.jar -DgroupId=ca.mcgill.sable -DartifactId=soot -Dversion=trunk -Dpackaging=jar
