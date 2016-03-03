@@ -3,6 +3,10 @@ language: java
 jdk:
   - oraclejdk8
   
+
+env:
+- secure: FY2OPbOGgoQSCuY/gDVmc4T6CAJJE4kaeJbVHg/bhbsQYVEtBxRDFILqy0OPbmMS10GfrCf0ZyhXjnXR0w4TXuG+Gv0nBExldDrCLvmCK8ERimHF+emgRDfJMZQw4F1AOS1NSwhrBiWhMRgMimD7Cst1QfNdKvd5KTVHs8euRvrbDcqZW67sYtAk6MnCIj7wcY19064O8Md3q8+pI2TThFiM4ETxhodmONL7NGSTEVtuMgfsg/21CWpC6C6EapyOKMufauvW9kK0a+hFUzAEAhPTwdlbtnJ2BpI3cPTnvTrpoYFq2bRW4cDFet6cu1CyhCWHMdt/HDXaQ3aERYYBBg==
+
 branches:
   only:
     - master 
@@ -13,8 +17,9 @@ before_install:
 
 install: true
 
-deploy:
-  - mvn clean deploy
+script:
+  - echo $REPOUSER
+ # - mvn clean deploy 
 
 notifications:
   email:
