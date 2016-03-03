@@ -15,15 +15,22 @@
 	    <comments>A business-friendly OSS license</comments>
 	  </license>
 	</licenses>
+	  <developers>
+	    <developer>
+	      <name>Ben Hermann</name>
+	      <email>hermann@cs.tu-darmstadt.de</email>
+	      <organization>Technische Universität Darmstadt</organization>
+	      <organizationUrl>http://www.thewhitespace.de</organizationUrl>
+	    </developer>
+	  </developers>
 	<scm>
-    	<connection>scm:git:https://github.com/stg-tud/sootconfig.git</connection>
-    	<developerConnection>scm:git:https://github.com/stg-tud/sootconfig.git</developerConnection>
-    	<tag>HEAD</tag>
-    	<url>https://github.com/stg-tud/sootconfig</url>
-  	</scm>
+	  <connection>scm:git:git@github.com:stg-tud/sootconfig.git</connection>
+	  <developerConnection>scm:git:git@github.com:stg-tud/sootconfig.git</developerConnection>
+	  <url>git@github.com:stg-tud/sootconfig.git</url>
+	</scm>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
-		<plugins>
+			<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
@@ -32,6 +39,32 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+		    <plugin>
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-source-plugin</artifactId>
+		      <version>2.2.1</version>
+		      <executions>
+		        <execution>
+		          <id>attach-sources</id>
+		          <goals>
+		            <goal>jar-no-fork</goal>
+		          </goals>
+		        </execution>
+		      </executions>
+		    </plugin>
+		    <plugin>
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-javadoc-plugin</artifactId>
+		      <version>2.9.1</version>
+		      <executions>
+		        <execution>
+		          <id>attach-javadocs</id>
+		          <goals>
+		            <goal>jar</goal>
+		          </goals>
+		        </execution>
+		      </executions>
+		    </plugin>
 		    <plugin>
 		      <groupId>org.sonatype.plugins</groupId>
 		      <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -43,6 +76,31 @@
 		        <autoReleaseAfterClose>true</autoReleaseAfterClose>
 		      </configuration>
 		    </plugin>
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-release-plugin</artifactId>
+			  <version>2.5</version>
+			  <configuration>
+			    <autoVersionSubmodules>true</autoVersionSubmodules>
+			    <useReleaseProfile>false</useReleaseProfile>
+			    <releaseProfiles>release</releaseProfiles>
+			    <goals>deploy</goals>
+			  </configuration>
+			</plugin>		  
+		    <plugin>
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-gpg-plugin</artifactId>
+		      <version>1.5</version>
+		      <executions>
+		        <execution>
+		          <id>sign-artifacts</id>
+		          <phase>verify</phase>
+		          <goals>
+		            <goal>sign</goal>
+		          </goals>
+		        </execution>
+		      </executions>
+		    </plugin>			  
 		</plugins>
 	</build>
 	<dependencies>
