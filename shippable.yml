@@ -20,7 +20,7 @@ before_install:
 install: true
 
 script:
-  - mvn clean deploy --settings target/travis/settings.xml
+  - mvn clean deploy --settings settings.xml
 
 notifications:
   email:
