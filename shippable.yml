@@ -2,7 +2,7 @@ reset_minion: true
 language: java
 jdk:
   - oraclejdk8
-  
+
 build:
   cache: true
 
@@ -11,7 +11,7 @@ env:
 
 branches:
   only:
-    - master 
+    - master
 
 before_install:
   - curl https://ssebuild.cased.de/nightly/soot/lib/soot-trunk.jar > soot-trunk.jar
@@ -20,7 +20,7 @@ before_install:
 install: true
 
 script:
-  - mvn clean deploy 
+  - mvn clean deploy --settings target/travis/settings.xml
 
 notifications:
   email:
