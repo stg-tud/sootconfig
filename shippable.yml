@@ -12,6 +12,7 @@ env:
 branches:
   only:
     - master
+    - develop
 
 before_install:
   - echo $SIGNKEY | base64 --decode > codesigning.key
