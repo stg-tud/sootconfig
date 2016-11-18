@@ -98,7 +98,7 @@
 		<dependency>
 			<groupId>ca.mcgill.sable</groupId>
 			<artifactId>soot</artifactId>
-			<version>2016-07-27</version>
+			<version>trunk</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
