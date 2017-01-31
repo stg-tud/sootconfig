@@ -55,16 +55,13 @@ public abstract class PhaseOptions {
 		PhaseOptions that = (PhaseOptions) o;
 
 		if (!phase.equals(that.phase)) return false;
-		if (!options.equals(that.options)) return false;
 		return subOptions.equals(that.subOptions);
 
 	}
 
 	@Override
 	public int hashCode() {
-		int result = phase.hashCode();
-		result = 31 * result + options.hashCode();
-		result = 31 * result + subOptions.hashCode();
+		int result = 31 + subOptions.hashCode();
 		return result;
 	}
 }
