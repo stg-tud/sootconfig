@@ -40,13 +40,11 @@ public abstract class PhaseSubOptions {
 		PhaseSubOptions that = (PhaseSubOptions) o;
 
 		if (name != null ? !name.equals(that.name) : that.name != null) return false;
-		return options.equals(that.options);
+		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		int result = name != null ? name.hashCode() : 0;
-		result = 31 * result + options.hashCode();
-		return result;
+		return 31 * name.hashCode();
 	}
 }

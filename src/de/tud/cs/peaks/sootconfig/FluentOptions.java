@@ -14,6 +14,7 @@ public class FluentOptions {
 	private boolean allowPhantomReferences;
 	private boolean fullResolver;
 	private boolean includeAll;
+	private boolean ignoreClasspathErrors;
 	private boolean keepLineNumbers;
 	private boolean noBodiesForExcluded;
 	private OutputFormat outputFormat = OutputFormat.NONE;
@@ -35,13 +36,13 @@ public class FluentOptions {
 			o.setPhaseOption("jb.tr", "ignore-wrong-staticness:true");
 		o.set_full_resolver(this.fullResolver);
 		o.set_include_all(this.includeAll);
+		o.set_ignore_classpath_errors(this.ignoreClasspathErrors);
 		o.set_keep_line_number(this.keepLineNumbers);
 		o.set_no_bodies_for_excluded(this.noBodiesForExcluded);
 		o.set_output_format(this.outputFormat.sootOutputFormat());
 		o.set_prepend_classpath(this.prependClasspath);
 		o.set_whole_program(this.wholeProgramAnalysis);
-		if (this.useCoffi)
-			o.set_coffi(true);
+		o.set_coffi(this.useCoffi);
 		for (PhaseOptions p : this.phaseOptions)
 			p.apply(o);
 
@@ -59,6 +60,9 @@ public class FluentOptions {
 
 		if (this.includeAll)
 			buffer.add("include all");
+
+		if (this.ignoreClasspathErrors)
+			buffer.add("ignore classpath errors");
 
 		if (this.keepLineNumbers)
 			buffer.add("keep line numbers");
@@ -91,6 +95,11 @@ public class FluentOptions {
 
 	public FluentOptions includeAll() {
 		this.includeAll = true;
+		return this;
+	}
+
+	public FluentOptions ignoreClasspathErrors() {
+		this.ignoreClasspathErrors = true;
 		return this;
 	}
 
@@ -149,6 +158,7 @@ public class FluentOptions {
 		if (allowPhantomReferences != that.allowPhantomReferences) return false;
 		if (fullResolver != that.fullResolver) return false;
 		if (includeAll != that.includeAll) return false;
+		if (ignoreClasspathErrors != that.ignoreClasspathErrors) return false;
 		if (keepLineNumbers != that.keepLineNumbers) return false;
 		if (noBodiesForExcluded != that.noBodiesForExcluded) return false;
 		if (prependClasspath != that.prependClasspath) return false;
@@ -165,6 +175,7 @@ public class FluentOptions {
 		int result = (allowPhantomReferences ? 1 : 0);
 		result = 31 * result + (fullResolver ? 1 : 0);
 		result = 31 * result + (includeAll ? 1 : 0);
+		result = 31 * result + (ignoreClasspathErrors ? 1 : 0);
 		result = 31 * result + (keepLineNumbers ? 1 : 0);
 		result = 31 * result + (noBodiesForExcluded ? 1 : 0);
 		result = 31 * result + outputFormat.hashCode();
